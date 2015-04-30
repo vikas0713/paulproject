@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% block load_data %}
+    <div class="container table-responsive">
+         <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">
+                            Load Details
+                        </h1>
+                        <ol class="breadcrumb">
+                            <li>
+                                <i class="fa fa-dashboard"></i>  <a href="/">Home</a>
+                            </li>
+                            <li class="active">
+                                <i class="fa fa-truck"></i>Load # {{data.load}}
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+        <table class="invoice table table-bordered ">
+            <thead>
+             <tr>
+               <h2 class="text-center">Invoice Details</strong></h4>
+             </tr>
+            </thead>
+            <tbody>
+                {% if 'Complete' in data.status %}
+                <h3>Current Status: &nbsp;<strong>{{data.status}}</strong> </h3>
+                
+                {% else %}
+                    <h3>Current Status:<strong>{{data.status}}</strong></h3>
+                <br/>
+                <form action="/update_status/{{data.id}}/" method="POST">{% csrf_token %}
+                <div class="row">
+        <div class="col-sm-3"><h4><strong>Update Status :</strong></h4></div>
+        <div class="col-sm-9">
+            <div class="btn-group" data-toggle="buttons">
+                <label class="btn btn-default">
+                    <input type="radio"  name="update_status" value="Dispatched" {% if 'Dispatched' in data.status %} checked {% endif %}/>Dispatched
+                </label> 
+                <label class="btn btn-default">
+                    <input type="radio"  name="update_status" value="Loaded" {% if 'Loaded' in data.status %} checked {% endif %} /> Loaded
+                </label> 
+                <label class="btn btn-default">
+                    <input type="radio"  name="update_status" value="Unloaded" {% if 'Unloaded' in data.status %} checked {% endif %}/> Unloaded
+                </label> 
+                <label class="btn btn-default">
+                    <input type="radio"  name="update_status" value="Pending" {% if 'Pending' in data.status %} checked {% endif %}/> Pending
+                </label>
+                <label class="btn btn-default">
+                    <input type="radio"  name="update_status" value="Complete" {% if 'Complete' in data.status %} checked {% endif %}/> Complete
+                </label>&nbsp;
+                
+                </div>
+            <input type=submit class="btn btn-success" value="Update Status">
+        </div>
+    </div>
+                
+                </form>
+                {% endif %}
+                <br/>
+                <br/>
+                <br/>
+             <tr >
+                <td rowspan=2><h4><strong>load #{{data.load}}</strong></h4></td>
+                 <td><h4><strong>Shipping Date:{{data.ship_date}}</strong></h4></td>
+                 <td><h4><strong>Delivery:{{data.del_date}}</strong></h4></td>
+                <tr>
+                    <td><h4><strong>Origin: {{data.origin}}</strong></h4></td>
+                    <td><h4><strong>Destination: {{data.destination}}</strong></h4></td>
+                </tr> 
+            </tr>
+             <tr>
+                 <td colspan="2"><h4><strong>Driver: {{data.driver_name}}</strong></h4></td>
+                <td rowspan="2"><h4><strong>USD $:{{data.usd}}</strong></h4></td> 
+             </tr>
+             <tr>
+                 <td colspan="2"><h4><strong>Shipped To: {{data.customer}}</strong></h4></td>
+             </tr>
+            </tbody>
+        </table>
+        
+        
+        
+<!--
+        <h1><code>LOAD # {{data.load}}</code></h1>
+      
+    
+           <h4><strong>is <code>{{data.status|upper}}</code>
+       
+               Driver:<code>{{data.driver_name}}</code>
+       
+               Shipped On:<code>{{data.ship_date}}</code>
+       
+               Shipped To:<code>{{data.customer}}</code>
+       
+               Equipments:<code>{{data.equipment_type}}</code>
+       
+               Total Kms:<code>{{data.total_km}}</code></strong></h4>
+       
+-->
+    
+{% endblock %}
